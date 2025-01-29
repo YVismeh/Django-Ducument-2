@@ -53,10 +53,10 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href={% url "root:home" %}>Home</a></li>
-          <li><a href={% url "root:home"%}>About</a></li>
-          <li><a href={% url "root:home" %}>Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
           <li><a href={% url "services:services" %}>Services</a></li>
-          <li><a href={% url "root:home" %}>Pricing</a></li>
+          <li><a href="#pricing">Pricing</a></li>
           <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Dropdown 1</a></li>
@@ -99,7 +99,7 @@
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href={% url "root:home" %} class="logo d-flex align-items-center">
             <span class="sitename">QuickStart</span>
           </a>
           <div class="footer-contact pt-3">
@@ -119,7 +119,7 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href={% url "root:home" %}>Home</a></li>
             <li><a href="#">About us</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="#">Terms of service</a></li>
