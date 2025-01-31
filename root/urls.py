@@ -5,6 +5,4 @@ app_name = "root"
 
 urlpatterns = [
     path('', home, name="home"),
-    path('/#contact', home, name="contact"),
-    path('/#about', home, name="about"),
 ]
