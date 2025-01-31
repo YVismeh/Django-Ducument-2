@@ -30,6 +30,25 @@
         </div><!-- End Service Item -->
         {% endfor %}
 
+      {% if services.has_next and services.has_previous %}
+      <div class="container section-title">
+        <a href={% url 'services:services' %}?page={{first}}><button>first page</button>
+        <a href={% url 'services:services' %}?page={{services.previous_page_number}}><button>prev pag</button>
+        <a href={% url 'services:services' %}?page={{services.next_page_number}}><button>next page</button>
+        <a href={% url 'services:services' %}?page={{last}}><button>last page</button>
+      </div>
+      {% elif services.has_next %}
+      <div class="container section-title">
+        <a href={% url 'services:services' %}?page={{services.next_page_number}}><button>next page</button>
+        <a href={% url 'services:services' %}?page={{last}}><button>last page</button>
+      </div>
+      {% elif services.has_previous %}
+      <div class="container section-title">
+        <a href={% url 'services:services' %}?page={{first}}><button>first page</button>
+        <a href={% url 'services:services' %}?page={{services.previous_page_number}}><button>prev page</button>
+      </div>
+      {% endif %} 
+
         {% comment %} 
         <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
           <div class="service-item item-orange position-relative">
