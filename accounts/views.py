@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm#, Captcha
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
@@ -25,25 +25,47 @@ def login_user(request):
     else:
         return render(request, 'registration/login.html')
 
+@login_required
 def logout_user(request):
-    return render(request, 'registration/signup.html')
+    logout(request)
+    return redirect("root:home")
+
 def signup_user(request):
-    return render(request, 'registration/signup.html')
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            # user = form.save(commit=False)
+            # user.email = form.cleaned_data["email"]
+            # form.save()
+            user = form.save()
+            login(request, user)
+            return redirect("root:home")
+        else:
+            messages.add_message(request, messages.ERROR, "invalid data")
+            return redirect(request.path_info)
+    else:
+        return render(request, 'registration/signup.html')
+
 
 def change_password(request):
     return render(request, 'registration/change-password.html')
 
+
 def reset_password(request):
     pass
+
 
 def reset_password_done(request):
     pass
 
+
 def reset_password_confirm(request):
     pass
 
+
 def reset_password_complete(request):
     pass
+
 
 def edit_profile(request):
     pass

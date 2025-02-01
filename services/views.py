@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . models import Services, Category, SpecialService, Comments
 from django.core.paginator import Paginator
 from .forms import CommentsForm
@@ -47,16 +47,19 @@ def services_details(request, id=None):
 
     if request.method == "POST":
         form = CommentsForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.service = service
-            comment.save()
-            messages.add_message(request, messages.SUCCESS, "successfully sent")
-            return render(request, 'services/service-details.html', context=context)
-        
+        if request.user.is_authenticated:
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.service = service
+                comment.save()
+                messages.add_message(request, messages.SUCCESS, "successfully sent")
+                return render(request, 'services/service-details.html', context=context)
+            
+            else:
+                messages.add_message(request, messages.ERROR, "invalid data")
+                return render(request, 'services/service-details.html', context=context)
         else:
-            messages.add_message(request, messages.ERROR, "invalid data")
-            return render(request, 'services/service-details.html', context=context)
+            return redirect("accounts:login")
 
     else:
         return render(request, 'services/service-details.html', context=context)
