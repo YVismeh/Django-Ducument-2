@@ -3,6 +3,7 @@
 {% block "title" %}Login{% endblock "title" %}
 {% block "content" %}
 
+{% comment "" %}
 <!-- Page Title -->
 <div class="page-title" data-aos="fade">
   <div class="heading">
@@ -41,6 +42,38 @@
       <p></p>
       {% for message in messages %}
         <h2 style="color:red;">{{ message }}</h2>
+      {% endfor %}
+      </div>
+      
+    </div>
+  </div>
+</div><!-- End Page Title -->
+{% endcomment %}
+
+
+
+<div class="page-title" data-aos="fade">
+  <div class="heading">
+    <div class="container">
+      <div class="row d-flex justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1>SignUp</h1>
+          <p class="mb-0">insert your credentioal for SignUp. if you have an account, click on Login</p>
+        </div>
+        <p></p>
+        <form method="post">
+          {% csrf_token %}
+          <p><input type="text" name="username" placeholder="username" required="required"></p>
+          <p><input type="email" name="email" placeholder="email" required="required"></p>
+          <p><input type="password" name="password1" placeholder="Password" required="required"></p>
+          <p><input type="password" name="password2" placeholder="Confirm Password" required="required"></p>
+          <p><button type="submit">SignUp</button></p>
+          <p><a href={% url "accounts:login" %}>Login</a></p>
+      </form>
+      {% for message in messages %}
+      <p>
+        <h2 style="color:red;">{{ message }}</h2>
+      </p>
       {% endfor %}
       </div>
       
