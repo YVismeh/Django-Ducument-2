@@ -1,5 +1,5 @@
 from django.urls import path
-from . views import home
+from . views import home, login, signup, forget_password
 
 app_name = "root"
 

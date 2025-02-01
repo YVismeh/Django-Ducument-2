@@ -51,5 +51,3 @@ def home(request):
 # def home(request):
 #     return HttpResponse("<p>Hello, world. You're at the root index.</p>")
 
-# def login(request):
-#     return render(request, 'root/login.html')
