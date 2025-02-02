@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, SignUpForm, Captcha, ChangePassForm, ResetPassForm, ResetPassEmailForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth import password_validation
 from rest_framework.authtoken.models import Token
 from django.core.mail import send_mail
+from . models import User
 
 # Create your views here.
 
