@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, SignUpForm, Captcha, ChangePassForm, ResetPassForm
+from .forms import LoginForm, SignUpForm, Captcha, ChangePassForm, ResetPassForm, ResetPassEmailForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth import password_validation
 from rest_framework.authtoken.models import Token
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -88,7 +89,7 @@ def change_password(request):
 
 def reset_password(request):
     if request.method == "POST":
-        form = ResetPassForm(request.POST)
+        form = ResetPassEmailForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
             try:
@@ -97,25 +98,60 @@ def reset_password(request):
                 messages.add_message(request, messages.ERROR, "email not found")  
                 return redirect(request.path_info)
             else:
-                pass
-            token, create = Token.objects.get_or_create(user=user)
-            if not create:
-                Token.objects.get(user=user).delete()
-                token = Token.objects.create(user=user)
+                token, create = Token.objects.get_or_create(user=user)
+                if not create:
+                    Token.objects.get(user=user).delete()
+                    token = Token.objects.create(user=user)
+                send_mail(
+                    "reset UR password",
+                    f"https://127.0.0.1:8000/accounts/reset-password-confirm/{token.key}",
+                    "admin@mysite.com",
+                    [user.email],
+                    fail_silently=True,
+                )
+                return redirect("accounts:reset_password_done")
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid data")  
+            return redirect(request.path_info)
+
     else:
         return render(request, 'registration/reset-password.html')
 
 
 def reset_password_done(request):
-    pass
+    return render(request, 'registration/reset-password-done.html')
 
 
-def reset_password_confirm(request):
-    pass
+def reset_password_confirm(request, token):
+    if request.method == 'POST':
+        user = Token.objects.get(key=token).user
+        form = ResetPassForm(request.POST)
+        if form.is_valid():
+            pass1 = form.cleaned_data["pass1"]
+            pass2 = form.cleaned_data["pass2"]
+            if (pass1==pass2) and not (user.check_password(pass1)):
+                try:
+                    password_validation.validate_password(pass1)
+                except:
+                    messages.add_message(request, messages.ERROR, "Invalid password")
+                    return redirect(request.path_info) 
+                else:
+                    user.set_password(pass1)
+                    user.save()
+                    return redirect("accounts:reset_password_complete")
+            else:
+                messages.add_message(request, messages.ERROR, "pass1 and pass2 are'n similar or different with old one")  
+                return redirect(request.path_info)
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid data")  
+            return redirect(request.path_info)
+    else:
+        return render(request, 'registration/reset-password-confirm.html')
+
 
 
 def reset_password_complete(request):
-    pass
+    return render(request, 'registration/reset-password-compleete.html')
 
 
 def edit_profile(request):
