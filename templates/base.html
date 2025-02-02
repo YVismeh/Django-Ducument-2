@@ -77,7 +77,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
       {% if request.user.is_authenticated %}
-      <a class="btn-getstarted" href="#">{{request.user.username}}</a>
+      <a class="btn-getstarted" href="#">{{request.user.email}}</a>
       <a class="btn-getstarted" href={%url "accounts:logout"%}>Logout</a>
       <a class="btn-getstarted" href={%url "accounts:change_password"%}>ChangePassword</a>
       {% else %}

@@ -13,12 +13,17 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=120, widget=forms.PasswordInput)
     captcha = CaptchaField()
 
+# class SignUpForm(UserCreationForm):
+    
+#     class Meta(UserCreationForm.Meta):
+#         model = User
+#         fields = ["username", "password1", "password2", "id_code", "phone", "email"]
+
 class SignUpForm(UserCreationForm):
     
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["username", "password1", "password2", "id_code", "phone", "email"]
-
+        fields = ["email", "password1", "password2"]
 
 
 class ChangePassForm(forms.Form):
