@@ -16,9 +16,9 @@ def login_user(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             # username = request.POST.get('username').strip()
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('root:home')
