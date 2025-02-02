@@ -88,6 +88,15 @@ def change_password(request):
     else:
         return render(request, 'registration/change-password.html')
 
+
+
+from threading import Thread
+def send_email(title:str, caption:str, sender:str, reciver:list, fail_silently=True):
+    send_mail(title, caption, sender, reciver, fail_silently)
+
+
+
+
 def reset_password(request):
     if request.method == "POST":
         form = ResetPassEmailForm(request.POST)
@@ -103,13 +112,21 @@ def reset_password(request):
                 if not create:
                     Token.objects.get(user=user).delete()
                     token = Token.objects.create(user=user)
-                send_mail(
+                tr = Thread(target=send_email, args=(
                     "reset UR password",
                     f"https://127.0.0.1:8000/accounts/reset-password-confirm/{token.key}",
                     "admin@mysite.com",
                     [user.email],
-                    fail_silently=True,
-                )
+                ))
+                tr.start()
+                
+                # send_mail(
+                #     "reset UR password",
+                #     f"https://127.0.0.1:8000/accounts/reset-password-confirm/{token.key}",
+                #     "admin@mysite.com",
+                #     [user.email],
+                #     fail_silently=True,
+                # )
                 return redirect("accounts:reset_password_done")
         else:
             messages.add_message(request, messages.ERROR, "Invalid data")  
