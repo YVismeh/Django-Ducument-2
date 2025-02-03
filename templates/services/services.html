@@ -24,28 +24,32 @@
             <div>
               <h3>{{service.title}}</h3>
               <p>{{service.truncate_chars}}</p>
-              <a href={% url "services:services-details" id=service.id %} class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+              {% comment %} <a href={% url "services:services-details" id=service.id %} class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a> {% endcomment %}
+              <a href={% url "services:services-details" pk=service.id %} class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
         </div><!-- End Service Item -->
         {% endfor %}
 
-      {% if services.has_next and services.has_previous %}
+      {% comment %} {% if services.has_next and services.has_previous %} {% endcomment %}
+      {% if page_obj.has_next and page_obj.has_previous %}
       <div class="container section-title">
         <a href={% url 'services:services' %}?page={{first}}><button>first page</button>
         <a href={% url 'services:services' %}?page={{services.previous_page_number}}><button>prev pag</button>
         <a href={% url 'services:services' %}?page={{services.next_page_number}}><button>next page</button>
         <a href={% url 'services:services' %}?page={{last}}><button>last page</button>
       </div>
-      {% elif services.has_next %}
+      {% comment %} {% elif services.has_next %} {% endcomment %}
+      {% elif page_obj.has_next %}
       <div class="container section-title">
-        <a href={% url 'services:services' %}?page={{services.next_page_number}}><button>next page</button>
+        <a href={% url 'services:services' %}?page={{page_obj.next_page_number}}><button>next page</button>
         <a href={% url 'services:services' %}?page={{last}}><button>last page</button>
       </div>
-      {% elif services.has_previous %}
+      {% comment %} {% elif services.has_previous %} {% endcomment %}
+      {% elif page_obj.has_previous %}
       <div class="container section-title">
         <a href={% url 'services:services' %}?page={{first}}><button>first page</button>
-        <a href={% url 'services:services' %}?page={{services.previous_page_number}}><button>prev page</button>
+        <a href={% url 'services:services' %}?page={{page_obj.previous_page_number}}><button>prev page</button>
       </div>
       {% endif %} 
 

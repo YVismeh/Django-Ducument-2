@@ -12,15 +12,17 @@
           <p class="mb-0">Edit UR Profile</p>
         </div>
         <p></p>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
+          <p><button type="submit">save</button></p>
       </form>
       {% for message in messages %}
       <p>
-        <h2 style="color:red;">{{ message }}</h2>
+        <h2 data-aos="fade-up">{{ message }}</h2>
       </p>
       {% endfor %}
+
       </div>
       
     </div>

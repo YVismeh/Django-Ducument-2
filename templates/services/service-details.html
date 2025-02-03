@@ -33,7 +33,13 @@
               <h4>Serices List</h4>
               <div class="services-list">
                 {% comment  %}<a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Web Design</span></a>{% endcomment %}
-                {% for cat in category %}
+
+                {% comment  %} 
+                all service replace with object 
+                {% endcomment %}
+
+                {% comment %} {% for cat in services.category.all %} {% endcomment %}
+                {% for cat in object.category.all %}
                 <a href={% url "services:category" category=cat.title %}><i class="bi bi-arrow-right-circle"></i><span>{{cat.title}}</span></a>
                 {% endfor %}
 
@@ -43,8 +49,8 @@
             <div class="service-box">
               <h4>Download Catalog</h4>
               <div class="download-catalog">
-                <a href={{services.catalog_pdf}}><i class="bi bi-filetype-pdf"></i><span>Catalog PDF</span></a>
-                <a href={{services.catalog_doc}}><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
+                <a href={{object.catalog_pdf}}><i class="bi bi-filetype-pdf"></i><span>Catalog PDF</span></a>
+                <a href={{object.catalog_doc}}><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
               </div>
             </div><!-- End Services List -->
 
@@ -58,15 +64,13 @@
           </div>
 
           <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-            <img src={{services.img.url}} alt="" class="img-fluid services-img">
-            <h3>{{services.title}}</h3>
+            <img src="{{object.img.url}}" alt="" class="img-fluid services-img">
+            <h3>{{object.title}}</h3>
             <p>
-              {{services.desc}}
+              {{object.desc}}
             </p>
             <ul>
-              {% for sps in s_services %}
-              <li><i class="bi bi-check-circle"></i> <span>{{sps.title}}</span></li>
-              {% endfor %}
+              <li><i class="bi bi-check-circle"></i> <span>{{object.special_service.title}}</span></li>
             </ul>
           </div>
 

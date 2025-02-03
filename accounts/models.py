@@ -61,8 +61,8 @@ class Profile(models.Model):
     username = models.CharField(max_length=20)
     phone = models.CharField(max_length=20)
     id_code = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="user",default="defaoult.jpg")
+    image = models.ImageField(upload_to="user",default="default.jpg")
     address = models.TextField()
 
     def __str__(self):
-        return self.username
+        return self.user.email
